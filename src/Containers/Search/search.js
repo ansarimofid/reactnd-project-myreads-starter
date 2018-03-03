@@ -40,7 +40,6 @@ class Search extends React.Component {
     if (query) {
       return search(query)
         .then((data) => {
-          console.log(data);
           this.setState({searchData: data});
           this.setState({loading: false});
         })
