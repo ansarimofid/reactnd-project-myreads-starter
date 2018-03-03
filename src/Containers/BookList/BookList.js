@@ -27,10 +27,10 @@ class BookList extends React.Component {
       })
   }
 
-  getCurrReading() {
+  getShelfData(shelfName) {
     return this.state.booksData.length ?
       this.state.booksData.filter((book) => {
-        return book.shelf === 'currentlyReading'
+        return book.shelf === shelfName
       })
       :
       false;
@@ -38,16 +38,16 @@ class BookList extends React.Component {
 
   render() {
 
-    console.log(this.getCurrReading());
+    console.log(this.getShelfData('currentlyReading'));
 
     return (
       <div className="list-books-content">
         {
           this.state.booksData.length ? (
             <div>
-              <BookShelf/>
-              <BookShelf/>
-              <BookShelf/>
+              <BookShelf shelfName="Currently Reading " booksData = {this.getShelfData('currentlyReading')}/>
+              <BookShelf shelfName="Want to Read" booksData = {this.getShelfData('wantToRead')}/>
+              <BookShelf shelfName="Read" booksData = {this.getShelfData('read')}/>
             </div>
           ) : (
             <div>Loading</div>
