@@ -17,16 +17,25 @@ class Search extends React.Component {
     super(props);
     this.state = {
       searchData: [],
-      query:''
+      query: '',
+      loading:false
     }
   }
 
   getSearchResult(query) {
-    return search(query)
-      .then((data) => {
-        console.log(data)
-        this.setState({searchData: data})
-      })
+    this.setState({loading: true});
+    if (query) {
+      return search(query)
+        .then((data) => {
+          console.log(data);
+          this.setState({searchData: data})
+          this.setState({loading: false});
+        })
+        .catch(()=>{
+          this.setState({loading: false});
+        })
+    }
+
   }
 
   handleShelfChange(book, shelf) {
@@ -35,7 +44,7 @@ class Search extends React.Component {
 
   handleInputChange(e) {
     let query = e.target.value;
-    this.setState({query:query})
+    this.setState({query: query});
     console.log("Query", query);
     this.getSearchResult(query);
 
@@ -61,7 +70,7 @@ class Search extends React.Component {
         </div>
         <div className="search-books-results">
           {
-            this.state.query?(
+            this.state.query ? (
               <ol className="books-grid">
                 {
                   this.state.searchData.length ? this.state.searchData.map((book =>
@@ -71,14 +80,15 @@ class Search extends React.Component {
                         handleShelfChange={this.handleShelfChange.bind(this)}
                       />
                   ))
-
-                    : (
+                    : this.state.loading?(
                     <div>Loading Results</div>
+                  ):(
+                    <div style={{textAlign:'center'}}>No Result</div>
                   )
                 }
               </ol>
-            ): (
-              <h3>Enter Query To Search</h3>
+            ) : (
+              <h3 style={{textAlign:'center'}}>Enter Query To Search</h3>
             )
           }
         </div>
