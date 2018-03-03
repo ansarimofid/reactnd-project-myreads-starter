@@ -2,7 +2,7 @@
  * Created by ansarimofid on 03/03/18.
  */
 import React from 'react'
-import {getAll,update} from '../../BooksAPI'
+import {getAll, update} from '../../BooksAPI'
 import BookShelf from '../../Components/BookShelf/BookShelf'
 
 
@@ -38,11 +38,22 @@ class BookList extends React.Component {
 
   handleShelfChange(book, shelf) {
 
-    update(book, shelf)
-      .then(()=> {
-      this.getAllBooks();
-      })
+    this.updateShelf = this.updateShelf.bind(this);
+    this.updateShelf(book, shelf);
     console.log("Shelf Changes", shelf, book);
+    update(book, shelf);
+  }
+
+  updateShelf(newBook, shelf) {
+    let booksData = this.state.booksData;
+
+    let index = booksData.findIndex((book) => {
+      return book.id == newBook.id
+    });
+
+    booksData[index].shelf = shelf;
+
+    this.setState({booksData: booksData})
   }
 
   render() {
@@ -55,14 +66,14 @@ class BookList extends React.Component {
           this.state.booksData.length ? (
             <div>
               <BookShelf shelfName="Currently Reading "
-                         booksData = {this.getShelfData('currentlyReading')}
-                         handleShelfChange = {this.handleShelfChange.bind(this)}/>
+                         booksData={this.getShelfData('currentlyReading')}
+                         handleShelfChange={this.handleShelfChange.bind(this)}/>
               <BookShelf shelfName="Want to Read"
-                         booksData = {this.getShelfData('wantToRead')}
-                         handleShelfChange = {this.handleShelfChange.bind(this)}/>
+                         booksData={this.getShelfData('wantToRead')}
+                         handleShelfChange={this.handleShelfChange.bind(this)}/>
               <BookShelf shelfName="Read"
-                         booksData = {this.getShelfData('read')}
-                         handleShelfChange = {this.handleShelfChange.bind(this)}/>
+                         booksData={this.getShelfData('read')}
+                         handleShelfChange={this.handleShelfChange.bind(this)}/>
             </div>
           ) : (
             <div>Loading</div>

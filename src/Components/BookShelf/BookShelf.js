@@ -13,17 +13,17 @@ class BookShelf extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{this.props.shelfName}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
             {this.props.booksData.map((book =>
-            <BookItem
-              key={book.id}
-              bookData={book}
-              handleShelfChange = {this.handleShelfChange.bind(this)}
-            />
+                <BookItem
+                  key={book.id}
+                  bookData={book}
+                  handleShelfChange={this.handleShelfChange.bind(this)}
+                />
             ))
             }
           </ol>
