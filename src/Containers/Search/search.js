@@ -8,7 +8,7 @@
 
 import React from 'react'
 import {NavLink} from 'react-router-dom'
-import {getAll,search} from '../../BooksAPI'
+import {getAll, search, update} from '../../BooksAPI'
 import BookItem from '../../Components/BookItem/BookItem'
 
 class Search extends React.Component {
@@ -17,9 +17,9 @@ class Search extends React.Component {
     super(props);
     this.state = {
       searchData: [],
-      booksData:[],
+      booksData: [],
       query: '',
-      loading:false
+      loading: false
     }
   }
 
@@ -41,10 +41,10 @@ class Search extends React.Component {
       return search(query)
         .then((data) => {
           console.log(data);
-          this.setState({searchData: data})
+          this.setState({searchData: data});
           this.setState({loading: false});
         })
-        .catch(()=>{
+        .catch(() => {
           this.setState({loading: false});
         })
     }
@@ -52,15 +52,25 @@ class Search extends React.Component {
   }
 
   handleShelfChange(book, shelf) {
+    this.updateSearch(book, shelf);
+    update(book, shelf);
+  }
 
+  updateSearch(newBook, shelf) {
+    let searchData = this.state.searchData;
+
+    let index = searchData.findIndex((book) => {
+      return book.id === newBook.id
+    });
+
+    searchData[index].shelf = shelf;
+    this.setState({searchData: searchData})
   }
 
   handleInputChange(e) {
     let query = e.target.value;
     this.setState({query: query});
-    console.log("Query", query);
     this.getSearchResult(query);
-
   }
 
   bookOnShelf(bookid) {
@@ -68,7 +78,7 @@ class Search extends React.Component {
       return book.id === bookid
     });
 
-    if(index>0)
+    if (index > 0)
       return this.state.booksData[index];
 
     return false;
@@ -97,35 +107,32 @@ class Search extends React.Component {
             this.state.query ? (
               <ol className="books-grid">
                 {
-                  this.state.searchData.length ? this.state.searchData.map((book =>{
+                  this.state.searchData.length ? this.state.searchData.map((book => {
 
-                    let validBook = this.bookOnShelf(book.id);
-                    let noShelf = false;
+                      let validBook = this.bookOnShelf(book.id);
+                      let noShelf = false;
 
-                    if(!validBook) {
-                      noShelf = true;
-                      validBook = book;
-                    }
+                      if (!validBook) {
+                        noShelf = true;
+                        validBook = book;
+                      }
 
                       return <BookItem
                         key={book.id}
-                        noShelf = {noShelf}
                         bookData={validBook}
                         handleShelfChange={this.handleShelfChange.bind(this)}
                       />
-
-
-                  }
+                    }
                   ))
-                    : this.state.loading?(
+                    : this.state.loading ? (
                     <div>Loading Results</div>
-                  ):(
-                    <div style={{textAlign:'center'}}>No Result</div>
+                  ) : (
+                    <div style={{textAlign: 'center'}}>No Result</div>
                   )
                 }
               </ol>
             ) : (
-              <h3 style={{textAlign:'center'}}>Enter Query To Search</h3>
+              <h3 style={{textAlign: 'center'}}>Enter Query To Search</h3>
             )
           }
         </div>

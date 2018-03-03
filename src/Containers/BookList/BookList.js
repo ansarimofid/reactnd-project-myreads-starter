@@ -37,10 +37,7 @@ class BookList extends React.Component {
   }
 
   handleShelfChange(book, shelf) {
-
-    this.updateShelf = this.updateShelf.bind(this);
     this.updateShelf(book, shelf);
-    console.log("Shelf Changes", shelf, book);
     update(book, shelf);
   }
 
