@@ -2,7 +2,7 @@
  * Created by ansarimofid on 03/03/18.
  */
 import React from 'react'
-import {getAll} from '../../BooksAPI'
+import {getAll,update} from '../../BooksAPI'
 import BookShelf from '../../Components/BookShelf/BookShelf'
 
 
@@ -36,6 +36,15 @@ class BookList extends React.Component {
       false;
   }
 
+  handleShelfChange(book, shelf) {
+
+    update(book, shelf)
+      .then(()=> {
+      this.getAllBooks();
+      })
+    console.log("Shelf Changes", shelf, book);
+  }
+
   render() {
 
     console.log(this.getShelfData('currentlyReading'));
@@ -45,9 +54,15 @@ class BookList extends React.Component {
         {
           this.state.booksData.length ? (
             <div>
-              <BookShelf shelfName="Currently Reading " booksData = {this.getShelfData('currentlyReading')}/>
-              <BookShelf shelfName="Want to Read" booksData = {this.getShelfData('wantToRead')}/>
-              <BookShelf shelfName="Read" booksData = {this.getShelfData('read')}/>
+              <BookShelf shelfName="Currently Reading "
+                         booksData = {this.getShelfData('currentlyReading')}
+                         handleShelfChange = {this.handleShelfChange.bind(this)}/>
+              <BookShelf shelfName="Want to Read"
+                         booksData = {this.getShelfData('wantToRead')}
+                         handleShelfChange = {this.handleShelfChange.bind(this)}/>
+              <BookShelf shelfName="Read"
+                         booksData = {this.getShelfData('read')}
+                         handleShelfChange = {this.handleShelfChange.bind(this)}/>
             </div>
           ) : (
             <div>Loading</div>

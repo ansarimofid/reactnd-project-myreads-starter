@@ -7,6 +7,11 @@ import BookItem from '../BookItem/BookItem'
 
 class BookShelf extends React.Component {
 
+  handleShelfChange(book, shelf) {
+
+    this.props.handleShelfChange(book, shelf);
+  }
+
   render() {
     return(
       <div className="bookshelf">
@@ -14,7 +19,11 @@ class BookShelf extends React.Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
             {this.props.booksData.map((book =>
-            <BookItem key={book.id} bookData={book}/>
+            <BookItem
+              key={book.id}
+              bookData={book}
+              handleShelfChange = {this.handleShelfChange.bind(this)}
+            />
             ))
             }
           </ol>

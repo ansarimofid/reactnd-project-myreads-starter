@@ -6,6 +6,15 @@ import React from 'react'
 
 class BookItem extends React.Component {
 
+  constructor(props) {
+    super(props);
+  }
+
+  handleShelfChange(e) {
+    let shelf = e.target.value;
+    this.props.handleShelfChange(this.props.bookData, shelf);
+  }
+
   render() {
     return (
       <li>
@@ -17,7 +26,7 @@ class BookItem extends React.Component {
               backgroundImage: `url(${this.props.bookData.imageLinks.thumbnail})`
             }}></div>
             <div className="book-shelf-changer">
-              <select>
+              <select onChange={this.handleShelfChange.bind(this)} value={this.props.bookData.shelf}>
                 <option value="none" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
@@ -29,7 +38,7 @@ class BookItem extends React.Component {
           <div className="book-title">{this.props.bookData.title}</div>
           <div className="book-authors">
             {this.props.bookData.authors.join(',')
-          }
+            }
           </div>
         </div>
       </li>
