@@ -17,7 +17,7 @@ class BookItem extends React.Component {
   }
 
   render() {
-    let shelf = this.props.bookData.shelf ?this.props.bookData.shelf: 'none';
+    let shelf = this.props.bookData.shelf ? this.props.bookData.shelf : 'none';
     return (
       <li>
         <div className="book">
