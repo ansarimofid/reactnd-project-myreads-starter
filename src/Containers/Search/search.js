@@ -68,7 +68,7 @@ class Search extends React.Component {
   }
 
   handleInputChange(e) {
-    let query = e.target.value;
+    let query = e.target.value.trim();
     this.setState({query: query});
     this.getSearchResult(query);
   }

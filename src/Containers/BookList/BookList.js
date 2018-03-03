@@ -22,7 +22,6 @@ class BookList extends React.Component {
   getAllBooks() {
     return getAll()
       .then((data) => {
-        console.log(data)
         this.setState({booksData: data})
       })
   }
@@ -54,9 +53,6 @@ class BookList extends React.Component {
   }
 
   render() {
-
-    console.log(this.getShelfData('currentlyReading'));
-
     return (
       <div className="list-books-content">
         {
@@ -73,7 +69,7 @@ class BookList extends React.Component {
                          handleShelfChange={this.handleShelfChange.bind(this)}/>
             </div>
           ) : (
-            <div>Loading</div>
+            <h3 style={{textAlign: 'center'}}>Loading</h3>
           )
         }
       </div>
