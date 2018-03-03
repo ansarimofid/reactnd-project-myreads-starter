@@ -16,6 +16,7 @@ class BookItem extends React.Component {
   }
 
   render() {
+    let shelf = this.props.noShelf?'none':this.props.bookData.shelf;
     return (
       <li>
         <div className="book">
@@ -23,11 +24,11 @@ class BookItem extends React.Component {
             <div className="book-cover" style={{
               width: 128,
               height: 193,
-              backgroundImage: `url(${this.props.bookData.imageLinks.thumbnail})`
+              backgroundImage: `url(${this.props.bookData.imageLinks?this.props.bookData.imageLinks.thumbnail:' '})`
             }}></div>
             <div className="book-shelf-changer">
-              <select onChange={this.handleShelfChange.bind(this)} value={this.props.bookData.shelf}>
-                <option value="none" disabled>Move to...</option>
+              <select onChange={this.handleShelfChange.bind(this)} value={shelf}>
+                <option disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>

@@ -48,7 +48,7 @@ class BookList extends React.Component {
     let booksData = this.state.booksData;
 
     let index = booksData.findIndex((book) => {
-      return book.id == newBook.id
+      return book.id === newBook.id
     });
 
     booksData[index].shelf = shelf;

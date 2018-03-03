@@ -8,7 +8,7 @@
 
 import React from 'react'
 import {NavLink} from 'react-router-dom'
-import {search} from '../../BooksAPI'
+import {getAll,search} from '../../BooksAPI'
 import BookItem from '../../Components/BookItem/BookItem'
 
 class Search extends React.Component {
@@ -17,9 +17,22 @@ class Search extends React.Component {
     super(props);
     this.state = {
       searchData: [],
+      booksData:[],
       query: '',
       loading:false
     }
+  }
+
+  componentWillMount() {
+    this.getAllBooks();
+  }
+
+  getAllBooks() {
+    return getAll()
+      .then((data) => {
+        console.log(data);
+        this.setState({booksData: data})
+      })
   }
 
   getSearchResult(query) {
@@ -50,6 +63,17 @@ class Search extends React.Component {
 
   }
 
+  bookOnShelf(bookid) {
+    let index = this.state.booksData.findIndex((book) => {
+      return book.id === bookid
+    });
+
+    if(index>0)
+      return this.state.booksData[index];
+
+    return false;
+  }
+
   render() {
     return (
       <div className="search-books">
@@ -73,12 +97,25 @@ class Search extends React.Component {
             this.state.query ? (
               <ol className="books-grid">
                 {
-                  this.state.searchData.length ? this.state.searchData.map((book =>
-                      <BookItem
+                  this.state.searchData.length ? this.state.searchData.map((book =>{
+
+                    let validBook = this.bookOnShelf(book.id);
+                    let noShelf = false;
+
+                    if(!validBook) {
+                      noShelf = true;
+                      validBook = book;
+                    }
+
+                      return <BookItem
                         key={book.id}
-                        bookData={book}
+                        noShelf = {noShelf}
+                        bookData={validBook}
                         handleShelfChange={this.handleShelfChange.bind(this)}
                       />
+
+
+                  }
                   ))
                     : this.state.loading?(
                     <div>Loading Results</div>
