@@ -37,7 +37,8 @@ class BookItem extends React.Component {
           </div>
           <div className="book-title">{this.props.bookData.title}</div>
           <div className="book-authors">
-            {this.props.bookData.authors.join(',')
+            {
+              this.props.bookData.authors? this.props.bookData.authors.join(','): 'Unknown Author'
             }
           </div>
         </div>
