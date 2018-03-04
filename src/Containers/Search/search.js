@@ -77,7 +77,7 @@ class Search extends React.Component {
       return book.id === bookid
     });
 
-    if (index > 0)
+    if (index > -1)
       return this.state.booksData[index];
 
     return false;
